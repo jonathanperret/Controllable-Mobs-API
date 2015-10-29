@@ -2,6 +2,9 @@ package de.ntcomputer.minecraft.controllablemobs.implementation.ai.behaviors;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
+
+import org.bukkit.Bukkit;
 
 import net.minecraft.server.v1_8_R3.PathfinderGoal;
 import de.ntcomputer.minecraft.controllablemobs.api.ai.AIState;
@@ -29,9 +32,18 @@ public class PathfinderGoalAIMonitor extends PathfinderGoalWrapper {
 		PathfinderGoal goal;
 		for(Object item: activeItems) {
 			goal = NativeInterfaces.PATHFINDERGOALSELECTORITEM.FIELD_GOAL.get(item);
+			if (goal == null) {
+				Bukkit.getLogger().log(Level.WARNING, "[ControllableMobsAPI] Goal not found in PathfinderGoalAIMonitor for item {0}", item);
+				continue;
+			}
 			if(goal instanceof PathfinderGoalActionBase) continue;
 			if(!deactivate.remove(goal)) {
-				this.controller.goalPartMap.get(goal).setState(AIState.ACTIVE);
+				CraftAIPart<?, ?> part = this.controller.goalPartMap.get(goal);
+				if (part == null) {
+					Bukkit.getLogger().log(Level.WARNING, "[ControllableMobsAPI] Part not found in PathfinderGoalAIMonitor for goal {0}", goal);
+					continue;
+				}
+				part.setState(AIState.ACTIVE);
 				this.lastActive.add(goal);
 			}
 		}
