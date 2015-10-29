@@ -75,11 +75,16 @@ public final class CraftControllableMobAttributes implements ControllableMobAttr
 	}
 	
 	void dispose(boolean reset) {
-		this.attackDamage.dispose(reset);
-		this.maxHealth.dispose(reset);
-		this.followRange.dispose(reset);
-		this.knockbackResistance.dispose(reset);
-		this.movementSpeed.dispose(reset);
+		if (this.attackDamage != null)
+			this.attackDamage.dispose(reset);
+		if (this.maxHealth != null)
+			this.maxHealth.dispose(reset);
+		if (this.followRange != null)
+			this.followRange.dispose(reset);
+		if (this.knockbackResistance != null)
+			this.knockbackResistance.dispose(reset);
+		if (this.movementSpeed != null)
+			this.movementSpeed.dispose(reset);
 		this.attackDamage = null;
 		this.maxHealth = null;
 		this.followRange = null;
