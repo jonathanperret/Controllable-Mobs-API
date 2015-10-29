@@ -4,3 +4,5 @@
 /.settings
 /archive
 /target/
+/.classpath
+/.project
